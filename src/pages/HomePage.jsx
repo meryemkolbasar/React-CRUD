@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, deleteUser, addUser } from "../features/users/userSlice";
 import { useNavigate } from "react-router-dom"; // useNavigate'yi import ettik
 import AddUserForm from "../components/AddUserForm";
+import Styles from "../styles/styles.css";
 
 const HomePage = () => {
   const dispatch = useDispatch();
