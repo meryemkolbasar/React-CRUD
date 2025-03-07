@@ -4,15 +4,15 @@ import { useParams } from 'react-router-dom';
 import { fetchUsers } from '../features/users/userSlice';
 
 const UserDetail = () => {
-  const { id } = useParams();  // URL parametresinden id alıyoruz
+  const { id } = useParams();  
   const dispatch = useDispatch();
   const { users, loading, error } = useSelector((state) => state.users);
 
   useEffect(() => {
-    dispatch(fetchUsers());  // Kullanıcıları yükle
+    dispatch(fetchUsers());
   }, [dispatch]);
 
-  // Kullanıcıyı id'ye göre bulalım
+
   const user = users.find((user) => user.id === parseInt(id));
 
   if (loading) return <div className="text-center">Loading...</div>;

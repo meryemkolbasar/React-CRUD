@@ -1,38 +1,84 @@
 // src/components/UserList.jsx
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers, deleteUser } from "../features/users/userSlice"; // Redux action'larını import et
-import AddUserForm from "./AddUserForm"; // AddUserForm component'ini import et
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Card, Button, Row, Col } from 'react-bootstrap';
+import { deleteUser, setSelectedUser } from '../features/users/userSlice';
+import EditUserModal from './EditUserModal';
+import { useNavigate } from 'react-router-dom';
 
-const UserList = () => {
+const UserList = ({ users }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
-  // Redux store'dan kullanıcı verilerini al
-  const { users, loading, error } = useSelector((state) => state.users);
-
-  useEffect(() => {
-    dispatch(fetchUsers()); // Kullanıcıları yüklemek için action'ı dispatch et
-  }, [dispatch]);
-
-  const handleDelete = (userId) => {
-    dispatch(deleteUser(userId)); // Kullanıcıyı sil
+  const handleDelete = async (userId, e) => {
+    e.stopPropagation();
+    if (window.confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')) {
+      await dispatch(deleteUser(userId));
+    }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  const handleEdit = (user, e) => {
+    e.stopPropagation();
+    setSelectedUserId(user.id);
+    setShowEditModal(true);
+  };
+
+  const handleCardClick = (user) => {
+    dispatch(setSelectedUser(user));
+    navigate(`/user/${user.id}`);
+  };
 
   return (
-    <div className="user-list">
-      <AddUserForm /> {/* Kullanıcı ekleme formunu buraya ekle */}
-      {users.map((user) => (
-        <div key={user.id} className="user-card">
-          <h3>{user.name}</h3>
-          <p>{user.email}</p>
-          <p>{user.phone}</p>
-          <button onClick={() => handleDelete(user.id)}>Delete</button>
-        </div>
-      ))}
-    </div>
+    <>
+      <Row>
+        {users.map((user) => (
+          <Col key={user.id} xs={12} md={6} lg={4} className="mb-4">
+            <Card
+              className="h-100 shadow-sm position-relative hover-card"
+              onClick={() => handleCardClick(user)}
+              style={{ cursor: 'pointer' }}
+            >
+              <Card.Body>
+                <Card.Title className="text-primary mb-3">
+                  {user.name}
+                </Card.Title>
+                <Card.Text>
+                  <strong>Email:</strong> {user.email}<br />
+                  <strong>Telefon:</strong> {user.phone}
+                </Card.Text>
+                <div
+                  className="d-flex justify-content-between mt-3 position-relative"
+                  style={{ zIndex: 2 }}
+                >
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={(e) => handleDelete(user.id, e)}
+                  >
+                    Sil
+                  </Button>
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    onClick={(e) => handleEdit(user, e)}
+                  >
+                    Düzenle
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      <EditUserModal
+        show={showEditModal}
+        onHide={() => setShowEditModal(false)}
+        userId={selectedUserId}
+      />
+    </>
   );
 };
 

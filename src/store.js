@@ -1,24 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';  // localStorage kullanımı
+import storage from 'redux-persist/lib/storage'; 
 import usersReducer from './features/users/userSlice';
 
-// PersistConfig ayarlarını yap
+
 const persistConfig = {
-  key: 'root',  // root seviyesinde saklanacak
-  storage,  // localStorage kullanımı
+  key: 'root',  
+  storage,  
 };
 
-// usersReducer'ı persistReducer ile sarmalayın
+
 const persistedReducer = persistReducer(persistConfig, usersReducer);
 
 export const store = configureStore({
   reducer: {
-    users: persistedReducer,  // users reducer'ı persistedReducer ile kullan
+    users: persistedReducer,  
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
 
-export const persistor = persistStore(store);  // Persistor objesini oluştur
+export const persistor = persistStore(store);  
 
 export default store;

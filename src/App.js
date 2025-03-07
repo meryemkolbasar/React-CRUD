@@ -1,26 +1,20 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { PersistGate } from "redux-persist/integration/react"; // PersistGate import et
-import { store, persistor } from "./store"; // store ve persistor'ı import et
-import HomePage from "./pages/HomePage";
-import AddUserForm from "./components/AddUserForm.jsx";
-import UserDetail from "./pages/UserDetail";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import HomePage from './pages/HomePage';
+import UserDetailPage from './pages/UserDetailPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <PersistGate loading={null} persistor={persistor}>
-      {" "}
-      {/* PersistGate ile sar */}
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/user/:id" element={<UserDetail />} />
-            <Route path="/adduserform" element={<AddUserForm />} />
-          </Routes>
-        </div>
-      </Router>
-    </PersistGate>
+    <Router>
+      <Container fluid className="p-0">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/user/:id" element={<UserDetailPage />} />
+        </Routes>
+      </Container>
+    </Router>
   );
 }
 
