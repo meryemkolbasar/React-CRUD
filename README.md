@@ -1,3 +1,5 @@
+![image](https://github.com/meryemkolbasar/React-CRUD/blob/50c653f0cc3181383b6e1da26015347651496370/Screenshot.png)
+
 # Redux CRUD Uygulaması
 
 Bu proje, Redux kullanarak bir API'den kullanıcı verilerini çekmek ve CRUD işlemleri gerçekleştirmek amacıyla geliştirilmiştir. React, Redux Toolkit, Bootstrap ve CSS kullanılarak oluşturulmuştur. 
@@ -60,6 +62,5 @@ https://jsonplaceholder.typicode.com/users
 ## 📜 Lisans
 Bu proje MIT Lisansı ile lisanslanmıştır.
 
----
-Eğer herhangi bir sorun yaşarsanız, lütfen bir issue oluşturun veya bana ulaşın! 😊
+
 
