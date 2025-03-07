@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react"; // PersistGate import et
+import { store, persistor } from "./store"; // store ve persistor'ı import et
+import HomePage from "./pages/HomePage";
+import AddUserForm from "./components/AddUserForm.jsx";
+import UserDetail from "./pages/UserDetail";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PersistGate loading={null} persistor={persistor}>
+      {" "}
+      {/* PersistGate ile sar */}
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/user/:id" element={<UserDetail />} />
+            <Route path="/adduserform" element={<AddUserForm />} />
+          </Routes>
+        </div>
+      </Router>
+    </PersistGate>
   );
 }
 
